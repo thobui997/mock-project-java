@@ -22,56 +22,55 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class SystemSetting extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private Integer id;
 
-    @Column(name = "_key")
-    private String key;
+  @Column(name = "_key")
+  private String key;
 
-    @Column(name = "value")
-    private String value;
+  @Column(name = "value")
+  private String value;
 
-    @Column(name = "data_type")
-    private String dataType;
+  @Column(name = "data_type")
+  private String dataType;
 
-    @Column(name = "allow_override")
-    private boolean allowOverride;
+  @Column(name = "allow_override")
+  private boolean allowOverride;
 
-    @Column(name = "allow_values")
-    private String allowValues;
+  @Column(name = "allow_values")
+  private String allowValues;
 
-    public SystemSetting(SystemSettingRequest req) {
-        BeanUtils.copyProperties(req, this);
-        this.dataType = DataType.valueOf(req.getType().toUpperCase()).getDataType();
-        req.getAllowValues().forEach(x -> validationAllowValues(x, req.getType()));
-        this.allowValues = String.join(",", req.getAllowValues());
-    }
+  public SystemSetting(SystemSettingRequest req) {
+    validationValue(req.getValue(), req.getType());
+    BeanUtils.copyProperties(req, this);
+    this.dataType = DataType.valueOf(req.getType().toUpperCase()).getDataType();
+    this.allowValues = String.join(",", req.getAllowValues());
+  }
 
-    public boolean validationAllowValues(String value, String type) {
-        try {
-            switch (DataType.valueOf(type.toUpperCase())) {
-                case BOOLEAN:
-                    if (value.equals("true") || value.equals("false")) {
-                        return true;
-                    } else {
-                        throw new ManageSystemException(ErrorCodeEnum.WRONG_DATA_TYPE);
-                    }
-                case FLOAT:
-                    Float.valueOf(value);
-                    return true;
-                case INTEGER:
-                    Integer.valueOf(value);
-                    return true;
-                case DATE:
-                    LocalDateTime.parse(value);
-                    return true;
-                default:
-                    return true;
-            }
-        } catch (Exception e) {
+  public void validationValue(String value, String type) {
+    try {
+      switch (DataType.valueOf(type.toUpperCase())) {
+        case BOOLEAN:
+          if (value.equals("true") || value.equals("false")) {
+            return;
+          } else {
             throw new ManageSystemException(ErrorCodeEnum.WRONG_DATA_TYPE);
-        }
+          }
+        case FLOAT:
+          Float.valueOf(value);
+          return;
+        case INTEGER:
+          Integer.valueOf(value);
+          return;
+        case DATE:
+          LocalDateTime.parse(value);
+          return;
+        default:
+      }
+    } catch (Exception e) {
+      throw new ManageSystemException(ErrorCodeEnum.WRONG_DATA_TYPE);
     }
+  }
 }

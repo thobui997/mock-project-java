@@ -24,45 +24,46 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SystemSettingServiceImpl implements SystemSettingService {
 
-    private final SystemSettingRepository systemSettingRepository;
-    private final SystemSettingCategoryRepository systemSettingCategoryRepository;
-    private final CategoryRepository categoryRepository;
+  private final SystemSettingRepository systemSettingRepository;
+  private final SystemSettingCategoryRepository systemSettingCategoryRepository;
+  private final CategoryRepository categoryRepository;
 
-    @Override
-    @Transactional
-    public SystemSettingResponse createSystemSetting(SystemSettingRequest req) {
+  @Override
+  @Transactional
+  public SystemSettingResponse createSystemSetting(SystemSettingRequest req) {
 
-        List<Category> categoryList = categoryRepository.findByNameIn(req.getCategories());
-        ManageSystemException.assertTrue(categoryList.size() == req.getCategories().size(),
-            ErrorCodeEnum.DATA_NOT_FOUND);
+    List<Category> categoryList = categoryRepository.findByNameIn(req.getCategories());
+    ManageSystemException.assertTrue(categoryList.size() == req.getCategories().size(),
+      ErrorCodeEnum.DATA_NOT_FOUND);
 
-        SystemSetting systemSetting =  systemSettingRepository.save(new SystemSetting(req));
+    SystemSetting systemSetting = systemSettingRepository.save(new SystemSetting(req));
 
-        systemSettingCategoryRepository.saveAll(categoryList.stream()
-            .map(x -> new SystemSettingCategory(systemSetting.getId(), x.getId()))
-            .collect(Collectors.toList()));
-        req.setId(systemSetting.getId());
+    systemSettingCategoryRepository.saveAll(categoryList.stream()
+      .map(x -> new SystemSettingCategory(systemSetting.getId(), x.getId()))
+      .collect(Collectors.toList()));
+    req.setId(systemSetting.getId());
 
-        return new SystemSettingResponse(req);
-    }
+    return new SystemSettingResponse(req);
+  }
 
-    @Override
-    public SystemSettingResponse updatedSystemSetting(Integer id, SystemSettingRequest req) {
-        systemSettingRepository.findById(id)
-            .orElseThrow(ManageSystemException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
+  @Override
+  @Transactional
+  public SystemSettingResponse updatedSystemSetting(Integer id, SystemSettingRequest req) {
+    systemSettingRepository.findById(id)
+      .orElseThrow(ManageSystemException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
 
-        List<Category> categoryList = categoryRepository.findByNameIn(req.getCategories());
-        ManageSystemException.assertTrue(categoryList.size() == req.getCategories().size(),
-            ErrorCodeEnum.DATA_NOT_FOUND);
-        req.setId(id);
+    List<Category> categoryList = categoryRepository.findByNameIn(req.getCategories());
+    ManageSystemException.assertTrue(categoryList.size() == req.getCategories().size(),
+      ErrorCodeEnum.DATA_NOT_FOUND);
+    req.setId(id);
 
-        SystemSetting systemSetting =  systemSettingRepository.save(new SystemSetting(req));
+    SystemSetting systemSetting = systemSettingRepository.save(new SystemSetting(req));
 
-        systemSettingCategoryRepository.saveAll(categoryList.stream()
-            .map(x -> new SystemSettingCategory(systemSetting.getId(), x.getId()))
-            .collect(Collectors.toList()));
-        req.setId(systemSetting.getId());
+    systemSettingCategoryRepository.saveAll(categoryList.stream()
+      .map(x -> new SystemSettingCategory(systemSetting.getId(), x.getId()))
+      .collect(Collectors.toList()));
+    req.setId(systemSetting.getId());
 
-        return new SystemSettingResponse(req);
-    }
+    return new SystemSettingResponse(req);
+  }
 }
