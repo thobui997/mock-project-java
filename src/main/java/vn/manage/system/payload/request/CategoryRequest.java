@@ -1,6 +1,7 @@
 package vn.manage.system.payload.request;
 
 import javax.validation.constraints.NotBlank;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,9 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryRequest {
 
-    @NotBlank
-    private String username;
-    @NotBlank
-    private String password;
+  private Integer id;
+
+  @NotBlank
+  private String name;
+
+  private String description;
 
 }

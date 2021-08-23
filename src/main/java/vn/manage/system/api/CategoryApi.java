@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.manage.system.payload.request.CategoryRequest;
+import vn.manage.system.payload.response.ApiResponse;
+import vn.manage.system.service.CategoryService;
 
 import javax.validation.Valid;
 
@@ -12,13 +14,15 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class CategoryApi {
 
-    @PostMapping
-    public ResponseEntity<?> postCategory(@Valid @RequestBody CategoryRequest req) {
-        return ResponseEntity.ok().body("");
-    }
+  private final CategoryService categoryService;
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCategoryById(@PathVariable Integer id) {
-        return ResponseEntity.ok().body("");
-    }
+  @PostMapping
+  public ResponseEntity<?> postCategory(@Valid @RequestBody CategoryRequest req) {
+    return ResponseEntity.ok().body(ApiResponse.success(categoryService.createCategory(req)));
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteCategoryById(@PathVariable Integer id) {
+    return ResponseEntity.ok().body(categoryService.deleteCategory(id));
+  }
 }
