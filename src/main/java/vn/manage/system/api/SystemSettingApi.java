@@ -15,31 +15,28 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SystemSettingApi {
 
-    private final SystemSettingService systemSettingService;
+  private final SystemSettingService systemSettingService;
 
-    @PostMapping
-    public ResponseEntity<?> postSystemSettings(@Valid @RequestBody SystemSettingRequest req) {
+  @PostMapping
+  public ResponseEntity<?> postSystemSettings(@Valid @RequestBody SystemSettingRequest req) {
 
-        return ResponseEntity.ok()
-            .body(ApiResponse.success(systemSettingService.createSystemSetting(req)));
-    }
+    return ResponseEntity.ok()
+      .body(ApiResponse.success(systemSettingService.createSystemSetting(req)));
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> putSystemSettings(@PathVariable Integer id,
-        @Valid @RequestBody SystemSettingRequest req) {
+  @PutMapping("/{id}")
+  public ResponseEntity<?> putSystemSettings(@PathVariable Integer id, @Valid @RequestBody SystemSettingRequest req) {
+    return ResponseEntity.ok()
+      .body(ApiResponse.success(systemSettingService.updatedSystemSetting(id, req)));
+  }
 
-        return ResponseEntity.ok()
-            .body(ApiResponse.success(systemSettingService.updatedSystemSetting(id, req)));
-    }
+  @GetMapping
+  public ResponseEntity<?> getSystemSettingById(@RequestParam List<Integer> id, @RequestParam List<String> key) {
+    return ResponseEntity.ok().body("");
+  }
 
-    @GetMapping
-    public ResponseEntity<?> getSystemSettingById(@RequestParam List<Integer> id,
-        @RequestParam List<String> key) {
-        return ResponseEntity.ok().body("");
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteSystemSettingById(@PathVariable Integer id) {
-        return ResponseEntity.ok().body("");
-    }
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteSystemSettingById(@PathVariable Integer id) {
+    return ResponseEntity.ok().body(systemSettingService.deleteSystemSetting(id));
+  }
 }

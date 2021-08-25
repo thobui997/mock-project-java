@@ -11,13 +11,15 @@ public class ApiResponse {
   private Object data;
   private String error;
   private Boolean success;
+  private String errorMessage;
   private int statusCode = HttpStatus.OK.value();
 
-  public static ApiResponse fail(int statusCode, String error) {
+  public static ApiResponse fail(int statusCode, String error, String errorMessage) {
     ApiResponse response = new ApiResponse();
     response.setError(error);
     response.setStatusCode(statusCode);
     response.setSuccess(false);
+    response.setErrorMessage(errorMessage);
     return response;
   }
 

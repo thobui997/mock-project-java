@@ -1,6 +1,8 @@
 package vn.manage.system.service.impl;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.manage.system.entities.Category;
@@ -9,13 +11,13 @@ import vn.manage.system.entities.SystemSettingCategory;
 import vn.manage.system.enums.ErrorCodeEnum;
 import vn.manage.system.exception.ManageSystemException;
 import vn.manage.system.payload.request.SystemSettingRequest;
+import vn.manage.system.payload.response.ApiResponse;
 import vn.manage.system.payload.response.SystemSettingResponse;
 import vn.manage.system.repository.CategoryRepository;
 import vn.manage.system.repository.SystemSettingCategoryRepository;
 import vn.manage.system.repository.SystemSettingRepository;
 import vn.manage.system.service.SystemSettingService;
 
-import javax.persistence.ManyToMany;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,5 +68,19 @@ public class SystemSettingServiceImpl implements SystemSettingService {
     req.setId(systemSetting.getId());
 
     return new SystemSettingResponse(req);
+  }
+
+  @Override
+  @Transactional
+  public ApiResponse deleteSystemSetting(Integer id) {
+    SystemSettingCategory systemSettingCategory = systemSettingCategoryRepository.findSystemSettingCategoryBySystemSettingId(id).
+      orElseThrow(ManageSystemException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
+
+    systemSettingCategoryRepository.deleteById(systemSettingCategory.getId());
+
+    systemSettingRepository.findById(id).orElseThrow(ManageSystemException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
+    systemSettingRepository.deleteById(id);
+
+    return ApiResponse.success();
   }
 }

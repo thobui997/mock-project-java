@@ -35,6 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
+  @Transactional
   public ApiResponse deleteCategory(Integer id) {
     SystemSettingCategory systemSettingCategory = systemSettingCategoryRepository.findSystemSettingCategoryByCategoryId(id)
       .orElseThrow(ManageSystemException.exception(ErrorCodeEnum.DATA_NOT_FOUND));

@@ -8,5 +8,8 @@ import java.util.Optional;
 
 @Repository
 public interface SystemSettingCategoryRepository extends JpaRepository<SystemSettingCategory, Integer> {
+
   Optional<SystemSettingCategory> findSystemSettingCategoryByCategoryId(Integer categoryId);
+
+  Optional<SystemSettingCategory> findSystemSettingCategoryBySystemSettingId(Integer settingId);
 }

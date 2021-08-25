@@ -27,7 +27,7 @@ public class SystemSetting extends BaseEntity {
   @Column(name = "id")
   private Integer id;
 
-  @Column(name = "_key")
+  @Column(name = "_key", unique = true)
   private String key;
 
   @Column(name = "value")
