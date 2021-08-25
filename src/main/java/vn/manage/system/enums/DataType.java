@@ -1,15 +1,15 @@
 package vn.manage.system.enums;
 
 public enum DataType {
-    STRING("string"), FLOAT("float"), DATE("date"), INTEGER("integer"), BOOLEAN("boolean");
+  STRING("string"), FLOAT("float"), DATE("date"), INTEGER("integer"), BOOLEAN("boolean");
 
-    private String value;
+  private String value;
 
-    DataType(String value) {
-        this.value = value;
-    }
+  DataType(String value) {
+    this.value = value;
+  }
 
-    public String getDataType() {
-        return value;
-    }
+  public String getDataType() {
+    return value;
+  }
 }

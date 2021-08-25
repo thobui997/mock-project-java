@@ -15,6 +15,7 @@ import vn.manage.system.repository.SystemSettingCategoryRepository;
 import vn.manage.system.repository.SystemSettingRepository;
 import vn.manage.system.service.SystemSettingService;
 
+import javax.persistence.ManyToMany;
 import java.util.List;
 import java.util.stream.Collectors;
 

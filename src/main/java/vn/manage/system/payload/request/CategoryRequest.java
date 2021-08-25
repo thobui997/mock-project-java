@@ -2,11 +2,10 @@ package vn.manage.system.payload.request;
 
 import javax.validation.constraints.NotBlank;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryRequest {
