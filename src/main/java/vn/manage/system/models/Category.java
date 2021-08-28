@@ -1,11 +1,11 @@
-package vn.manage.system.entities;
+package vn.manage.system.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
-import vn.manage.system.payload.request.CategoryRequest;
+import vn.manage.system.domain.CategoryRequestDto;
 
 import javax.persistence.*;
 
@@ -28,7 +28,7 @@ public class Category extends BaseEntity {
   @Column(name = "description")
   private String description;
 
-  public Category(CategoryRequest request) {
+  public Category(CategoryRequestDto request) {
     BeanUtils.copyProperties(request, this);
   }
 }

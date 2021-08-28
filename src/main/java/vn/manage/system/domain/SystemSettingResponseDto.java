@@ -1,15 +1,14 @@
-package vn.manage.system.payload.response;
+package vn.manage.system.domain;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
-import vn.manage.system.payload.request.SystemSettingRequest;
 
 import java.util.List;
 
 @Getter
 @Setter
-public class SystemSettingResponse {
+public class SystemSettingResponseDto {
 
     private Integer id;
 
@@ -27,7 +26,7 @@ public class SystemSettingResponse {
 
     private List<String> categories;
 
-    public SystemSettingResponse(SystemSettingRequest request) {
+    public SystemSettingResponseDto(SystemSettingRequestDto request) {
         BeanUtils.copyProperties(request, this);
     }
 }

@@ -1,12 +1,11 @@
 package vn.manage.system.service;
 
-import vn.manage.system.payload.request.CategoryRequest;
-import vn.manage.system.payload.response.ApiResponse;
-import vn.manage.system.payload.response.CategoryResponse;
+import vn.manage.system.domain.CategoryRequestDto;
+import vn.manage.system.domain.CategoryResponseDto;
 
 public interface CategoryService {
 
-  CategoryResponse createCategory(CategoryRequest request);
+  CategoryResponseDto createCategory(CategoryRequestDto request);
 
-  ApiResponse deleteCategory(Integer id);
+  void deleteCategory(Integer id);
 }

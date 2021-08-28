@@ -1,4 +1,4 @@
-package vn.manage.system.enums;
+package vn.manage.system.constants;
 
 public enum ErrorCodeEnum {
 

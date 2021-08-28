@@ -1,5 +1,6 @@
-package vn.manage.system.payload.request;
+package vn.manage.system.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.validation.constraints.Size;
@@ -9,8 +10,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SystemSettingRequest {
+public class SystemSettingRequestDto {
 
+  @JsonIgnore
   private Integer id;
 
   @Size(max = 1024)

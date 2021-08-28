@@ -2,7 +2,7 @@ package vn.manage.system.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import vn.manage.system.entities.Category;
+import vn.manage.system.models.Category;
 
 import java.util.List;
 

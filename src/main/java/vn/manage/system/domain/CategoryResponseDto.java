@@ -1,19 +1,18 @@
-package vn.manage.system.payload.response;
+package vn.manage.system.domain;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
-import vn.manage.system.payload.request.CategoryRequest;
 
 @Getter
 @Setter
-public class CategoryResponse {
+public class CategoryResponseDto {
 
   private Integer id;
   private String name;
   private String description;
 
-  public CategoryResponse(CategoryRequest request) {
+  public CategoryResponseDto(CategoryRequestDto request) {
     BeanUtils.copyProperties(request, this);
   }
 }

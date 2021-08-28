@@ -1,15 +1,14 @@
 package vn.manage.system.service;
 
-import vn.manage.system.payload.request.SystemSettingRequest;
-import vn.manage.system.payload.response.ApiResponse;
-import vn.manage.system.payload.response.SystemSettingResponse;
+import vn.manage.system.domain.SystemSettingRequestDto;
+import vn.manage.system.domain.SystemSettingResponseDto;
 
 public interface SystemSettingService {
 
-    SystemSettingResponse createSystemSetting(SystemSettingRequest req);
+    SystemSettingResponseDto createSystemSetting(SystemSettingRequestDto req);
 
-    SystemSettingResponse updatedSystemSetting(Integer id, SystemSettingRequest req);
+    SystemSettingResponseDto updatedSystemSetting(Integer id, SystemSettingRequestDto req);
 
-    ApiResponse deleteSystemSetting(Integer id);
+    void deleteSystemSetting(Integer id);
 
 }

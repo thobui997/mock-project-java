@@ -1,4 +1,4 @@
-package vn.manage.system.entities;
+package vn.manage.system.models;
 
 
 import lombok.AllArgsConstructor;
@@ -6,10 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
-import vn.manage.system.enums.DataType;
-import vn.manage.system.enums.ErrorCodeEnum;
-import vn.manage.system.exception.ManageSystemException;
-import vn.manage.system.payload.request.SystemSettingRequest;
+import vn.manage.system.constants.DataType;
+import vn.manage.system.constants.ErrorCodeEnum;
+import vn.manage.system.exception.ManageSystemRequestException;
+import vn.manage.system.domain.SystemSettingRequestDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -42,7 +42,7 @@ public class SystemSetting extends BaseEntity {
   @Column(name = "allow_values")
   private String allowValues;
 
-  public SystemSetting(SystemSettingRequest req) {
+  public SystemSetting(SystemSettingRequestDto req) {
     validationValue(req.getValue(), req.getType());
     BeanUtils.copyProperties(req, this);
     this.dataType = DataType.valueOf(req.getType().toUpperCase()).getDataType();
@@ -56,7 +56,7 @@ public class SystemSetting extends BaseEntity {
           if (value.equals("true") || value.equals("false")) {
             return;
           } else {
-            throw new ManageSystemException(ErrorCodeEnum.WRONG_DATA_TYPE);
+            throw new ManageSystemRequestException(ErrorCodeEnum.WRONG_DATA_TYPE.getMessage());
           }
         case FLOAT:
           Float.valueOf(value);
@@ -70,7 +70,7 @@ public class SystemSetting extends BaseEntity {
         default:
       }
     } catch (Exception e) {
-      throw new ManageSystemException(ErrorCodeEnum.WRONG_DATA_TYPE);
+      throw new ManageSystemRequestException(ErrorCodeEnum.WRONG_DATA_TYPE.getMessage());
     }
   }
 }

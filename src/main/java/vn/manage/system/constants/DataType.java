@@ -1,4 +1,4 @@
-package vn.manage.system.enums;
+package vn.manage.system.constants;
 
 public enum DataType {
   STRING("string"), FLOAT("float"), DATE("date"), INTEGER("integer"), BOOLEAN("boolean");

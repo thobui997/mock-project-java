@@ -1,4 +1,4 @@
-package vn.manage.system.entities;
+package vn.manage.system.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
