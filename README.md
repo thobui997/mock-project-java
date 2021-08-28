@@ -33,143 +33,143 @@ Base on the analysis of the requirements, we decide to use the following databas
 
 
 ## Assignment Descriptions
-1. Create API-CS01 Create system settings
-- Method `POST/system-settings`
-- Request
+1. Create API-CS01 create system settings
+	- Method `POST/system-settings`
+	- Request
 
-```Json
-{
-  "key": "example",
-  "value": "value",
-  "type": "string",
-  "allowOverride": true,
-  "allowValues": ["VALUE1", "VALUE2"],
-  "description": "Description of system config",
-  "categories": ["category 1", "category 2"]
-}
-```
+	```Json
+	{
+		"key": "example",
+		"value": "value",
+		"type": "string",
+		"allowOverride": true,
+		"allowValues": ["VALUE1", "VALUE2"],
+		"description": "Description of system config",
+		"categories": ["category 1", "category 2"]
+	}
+	```
 
-- Response
+	- Response
 
-```Json
-{
-  "id" : "1",
-  "key": "example",
-  "value": "value",
-  "type": "string",
-  "allowOverride": true,
-  "allowValues": ["VALUE1", "VALUE2"],
-  "description": "Description of system config",
-  "categories": ["category 1", "category 2"]
-}
-```
+	```Json
+	{
+		"id" : "1",
+		"key": "example",
+		"value": "value",
+		"type": "string",
+		"allowOverride": true,
+		"allowValues": ["VALUE1", "VALUE2"],
+		"description": "Description of system config",
+		"categories": ["category 1", "category 2"]
+	}
+	```
 
-- Validate:
-  - Key, value is required
-  - Type must be one of: string, float, date, integer, boolean
-  - The value is must match with the type
+	- Validate:
+		- Key, value is required
+		- Type must be one of: string, float, date, integer, boolean
+		- The value is must match with the type
 
-- Business rule:
-  - Category must be a exist on the database
-  - The key must be unique
-  - If system config allows to override, can be set the allow values can be override
+	- Business rule:
+		- Category must be a exist on the database
+		- The key must be unique
+		- If system config allows to override, can be set the allow values can be override
 
 
 
 2. Create API-CS02 Update system settings
-- Method `PUT/system-settings/{id}`
-- Request
+	- Method `PUT/system-settings/{id}`
+	- Request
 
-```Json
-{
-  "key": "example",
-  "value": "value",
-  "type": "string",
-  "allowOverride": true,
-  "allowValues": ["VALUE1", "VALUE2"],
-  "description": "Description of system config",
-  "categories": ["category 1", "category 2"]
-}
-```
+	```Json
+	{
+		"key": "example",
+		"value": "value",
+		"type": "string",
+		"allowOverride": true,
+		"allowValues": ["VALUE1", "VALUE2"],
+		"description": "Description of system config",
+		"categories": ["category 1", "category 2"]
+	}
+	```
 
-- Response
+	- Response
 
-```Json
-{
-  "id" : "1",
-  "key": "example",
-  "value": "value",
-  "type": "string",
-  "allowOverride": true,
-  "allowValues": ["VALUE1", "VALUE2"],
-  "description": "Description of system config",
-  "categories": ["category 1", "category 2"]
-}
-```
+	```Json
+	{
+		"id" : "1",
+		"key": "example",
+		"value": "value",
+		"type": "string",
+		"allowOverride": true,
+		"allowValues": ["VALUE1", "VALUE2"],
+		"description": "Description of system config",
+		"categories": ["category 1", "category 2"]
+	}
+	```
 
-- Validate:
-  - Key, value is required
-  - Type must be one of: string, float, date, integer, boolean
-  - The value is must match with the type
+	- Validate:
+		- Key, value is required
+		- Type must be one of: string, float, date, integer, boolean
+		- The value is must match with the type
 
-- Business rule:
-  - Category must be a exist on the database
-  - System settings must be a exist on the database
-  - The key must be unique
-  - If system config allows to override, can be set the allow values can be override
+	- Business rule:
+		- Category must be a exist on the database
+		- System settings must be a exist on the database
+		- The key must be unique
+		- If system config allows to override, can be set the allow values can be override
 
 3. Create API-CS03 Get list system setting by list key and list ID support paging
 
 4. Create API-CS04 Delete system setting by ID
-- Method `DELETE/system-settings/{id}`
-- Request: empty
-- Response: 
+	- Method `DELETE/system-settings/{id}`
+	- Request: empty
+	- Response: 
 
-```Json
-{
-  "success": true
-}
-```
-- Business Rule:
-  - System setting must be a exists on the database
+	```Json
+	{
+		"success": true
+	}
+	```
+	- Business Rule:
+		- System setting must be a exists on the database
 
 5. Create API-CS05 Create category
-- Method `POST/categories`
-- Request:
-```Json
-{
-  "name": "tho",
-  "desciption": "abc test"
-}
-```
+	- Method `POST/categories`
+	- Request:
+	```Json
+	{
+		"name": "tho",
+		"desciption": "abc test"
+	}
+	```
 
-- Response: 
+	- Response: 
 
-```Json
-{
-	"id": "1"
-	"name": "category_name",
-	"description": "Description of the category"
-}
-```
-- Validation:
-  - Name is required
-- Business Rule:
-  - Name must be unique
+	```Json
+	{
+		"id": "1"
+		"name": "category_name",
+		"description": "Description of the category"
+	}
+	```
+	- Validation:
+		- Name is required
+	- Business Rule:
+		- Name must be unique
 
 
 6. Create API-CS06 Delete category
-- Method `DELETE/categories/{id}`
-- Request: empty
-- Response: 
+	- Method `DELETE/categories/{id}`
+	- Request: empty
+	- Response: 
 
-```Json
-{
-  "success": true
-}
-```
-- Business Rule:
-  - Category must be a exists on the 
+	```Json
+	{
+		"success": true
+	}
+	```
+	- Business Rule:
+		- Category must be a exists on the 
 
 
 
