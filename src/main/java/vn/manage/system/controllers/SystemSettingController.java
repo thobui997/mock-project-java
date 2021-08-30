@@ -1,16 +1,19 @@
 package vn.manage.system.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.manage.system.domain.ResponseHandler;
 import vn.manage.system.domain.SystemSettingRequestDto;
 import vn.manage.system.domain.SystemSettingResponseDto;
+import vn.manage.system.models.SystemSetting;
 import vn.manage.system.service.SystemSettingService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/system-settings")
@@ -33,13 +36,19 @@ public class SystemSettingController {
   }
 
   @GetMapping
-  public ResponseEntity<?> getSystemSettingById(@RequestParam List<Integer> id, @RequestParam List<String> key) {
-    return ResponseEntity.ok().body("");
+  public ResponseEntity<?> getSystemSettingById(@RequestParam(required = false) String key, @RequestParam(defaultValue = "0") Integer page,
+                                                @RequestParam(defaultValue = "3") Integer size) {
+
+    Pageable paging = PageRequest.of(page, size);
+
+    Page<SystemSetting> systemSettingPage = systemSettingService.getAllSystemSetting(key, paging);
+
+    return ResponseHandler.generateResponse(HttpStatus.OK, systemSettingPage.getContent(), systemSettingPage);
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<?> deleteSystemSettingById(@PathVariable Integer id) {
     systemSettingService.deleteSystemSetting(id);
-    return ResponseHandler.responseSuccess(HttpStatus.OK, true);
+    return ResponseHandler.generateResponse(HttpStatus.OK, true);
   }
 }

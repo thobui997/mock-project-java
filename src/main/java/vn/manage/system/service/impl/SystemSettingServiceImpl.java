@@ -1,12 +1,11 @@
 package vn.manage.system.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.manage.system.constants.ErrorCodeEnum;
-import vn.manage.system.domain.ResponseHandler;
 import vn.manage.system.domain.SystemSettingRequestDto;
 import vn.manage.system.domain.SystemSettingResponseDto;
 import vn.manage.system.exception.ManageSystemRequestException;
@@ -79,5 +78,19 @@ public class SystemSettingServiceImpl implements SystemSettingService {
     systemSettingRepository.findById(id).orElseThrow(ManageSystemRequestException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
     systemSettingRepository.deleteById(id);
 
+  }
+
+  @Override
+  public Page<SystemSetting> getAllSystemSetting(String key, Pageable paging) {
+
+    Page<SystemSetting> systemSettingPage;
+
+    if (key == null) {
+      systemSettingPage = systemSettingRepository.findAll(paging);
+    } else {
+      systemSettingPage = systemSettingRepository.findByKeyContaining(key, paging);
+    }
+
+    return systemSettingPage;
   }
 }
