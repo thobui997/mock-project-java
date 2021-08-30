@@ -15,7 +15,6 @@ public class ResponseHandler {
     Map<String, Object> map = new HashMap<>();
 
     map.put("data", data);
-    map.put("status", status.value());
 
     return new ResponseEntity<Object>(map, status);
   }
@@ -32,7 +31,6 @@ public class ResponseHandler {
 
     map.put("totalCount", pages.getTotalElements());
     map.put("data", data);
-    map.put("status", status.value());
     map.put("paging", new ResponseHandler.PagingAndFilteringResponse(pages.getSize(), pages.getNumber(), pages.getTotalPages()));
 
     return new ResponseEntity<>(map, status);
