@@ -5,7 +5,6 @@ target/
 !**/src/test/**/target/
 
 ### env file ###
-/src/main/resources/application.yml
 /src/main/resources/application-prod.yml
 /src/main/resources/application-test.yml
 /src/main/resources/application-stg.yml

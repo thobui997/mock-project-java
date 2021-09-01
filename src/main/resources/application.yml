@@ -1,0 +1,28 @@
+server:
+  port: 8080
+logging:
+  level:
+    org:
+      hibernate:
+        type: info
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Kenshin970521
+    url: jdbc:mysql://localhost:3306/mydb
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+        jdbc:
+          time_zone: UTC
+url:
+  cross:
+    origins: localhost:3000
