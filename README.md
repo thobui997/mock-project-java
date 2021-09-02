@@ -120,6 +120,33 @@ Base on the analysis of the requirements, we decide to use the following databas
 
 3. Create API-CS03 Get list system setting by list key and list ID support paging
 
+	- Method `GET/system-settings?key={key1},{key2}&ids ={id1},{id2}`
+	- Response
+
+	```Json
+	{
+		"totalCount": 10,
+		"data": [
+		   {
+			"id" : "1",
+			"key": "example",
+			"value": "value",
+			"type": "string",
+			"allowOverride": true,
+			"allowValues": ["VALUE1", "VALUE2"],
+			"description": "Description of system config",
+			"categories": ["category 1", "category 2"]
+		   }
+	   	],
+		"paging": {
+			"first": "",
+			"previous": null,
+			"next": "",
+			"last": ""
+		}		
+	}
+	```
+
 4. Create API-CS04 Delete system setting by ID
 	- Method `DELETE/system-settings/{id}`
 	- Request: empty
