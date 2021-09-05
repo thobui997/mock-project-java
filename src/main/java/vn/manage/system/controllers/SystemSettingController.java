@@ -47,12 +47,8 @@ public class SystemSettingController {
 
 		Page<SystemSetting> systemSettingPage = systemSettingService.getAllSystemSetting(keys, paging);
 
-		List<SystemSettingResponseDto> systemSettingResponseDtos = systemSettingPage
-			.getContent()
-			.stream()
-			.map(e -> new SystemSettingResponseDto(e.getId(), e.getKey(), e.getValue(), e.getDataType(), e.isAllowOverride(),
-				e.getAllowValues()))
-			.collect(Collectors.toList());
+		List<SystemSettingResponseDto> systemSettingResponseDtos =
+			systemSettingPage.getContent().stream().map(SystemSettingResponseDto::new).collect(Collectors.toList());
 
 		return ResponseHandler.generateResponse(HttpStatus.OK, systemSettingResponseDtos, systemSettingPage);
 	}
