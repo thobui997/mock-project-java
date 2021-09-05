@@ -23,74 +23,83 @@ import java.util.stream.Collectors;
 @Service
 public class SystemSettingServiceImpl implements SystemSettingService {
 
-  @Autowired
-  private SystemSettingRepository systemSettingRepository;
+	@Autowired
+	private SystemSettingRepository systemSettingRepository;
 
-  @Autowired
-  private SystemSettingCategoryRepository systemSettingCategoryRepository;
+	@Autowired
+	private SystemSettingCategoryRepository systemSettingCategoryRepository;
 
-  @Autowired
-  private CategoryRepository categoryRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
 
-  @Override
-  @Transactional
-  public SystemSettingResponseDto createSystemSetting(SystemSettingRequestDto req) {
+	@Override
+	@Transactional
+	public SystemSettingResponseDto createSystemSetting(SystemSettingRequestDto req) {
 
-    List<Category> categoryList = categoryRepository.findByNameIn(req.getCategories());
-    ManageSystemRequestException.assertTrue(categoryList.size() == req.getCategories().size(),
-      ErrorCodeEnum.DATA_NOT_FOUND);
+		List<Category> categoryList = categoryRepository.findByNameIn(req.getCategories());
+		ManageSystemRequestException.assertTrue(categoryList.size() == req.getCategories().size(),
+			ErrorCodeEnum.DATA_NOT_FOUND);
 
-    SystemSetting systemSetting = systemSettingRepository.save(new SystemSetting(req));
+		SystemSetting systemSetting = systemSettingRepository.save(new SystemSetting(req));
 
-    systemSettingCategoryRepository.saveAll(categoryList.stream()
-      .map(x -> new SystemSettingCategory(systemSetting.getId(), x.getId()))
-      .collect(Collectors.toList()));
-    req.setId(systemSetting.getId());
+		systemSettingCategoryRepository.saveAll(categoryList
+			.stream()
+			.map(x -> new SystemSettingCategory(systemSetting.getId(), x.getId()))
+			.collect(Collectors.toList()));
+		req.setId(systemSetting.getId());
 
-    return new SystemSettingResponseDto(req);
-  }
+		return new SystemSettingResponseDto(req);
+	}
 
-  @Override
-  @Transactional
-  public SystemSettingResponseDto updatedSystemSetting(Integer id, SystemSettingRequestDto req) {
-    systemSettingRepository.findById(id)
-      .orElseThrow(ManageSystemRequestException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
+	@Override
+	@Transactional
+	public SystemSettingResponseDto updatedSystemSetting(Integer id, SystemSettingRequestDto req) {
+		systemSettingRepository
+			.findById(id)
+			.orElseThrow(ManageSystemRequestException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
 
-    List<Category> categoryList = categoryRepository.findByNameIn(req.getCategories());
-    ManageSystemRequestException.assertTrue(categoryList.size() == req.getCategories().size(),
-      ErrorCodeEnum.DATA_NOT_FOUND);
-    req.setId(id);
+		List<Category> categoryList = categoryRepository.findByNameIn(req.getCategories());
 
-    SystemSetting systemSetting = systemSettingRepository.save(new SystemSetting(req));
+		ManageSystemRequestException.assertTrue(categoryList.size() == req.getCategories().size(),
+			ErrorCodeEnum.DATA_NOT_FOUND);
 
-    systemSettingCategoryRepository.saveAll(categoryList.stream()
-      .map(x -> new SystemSettingCategory(systemSetting.getId(), x.getId()))
-      .collect(Collectors.toList()));
-    req.setId(systemSetting.getId());
+		req.setId(id);
 
-    return new SystemSettingResponseDto(req);
-  }
+		SystemSetting systemSetting = systemSettingRepository.save(new SystemSetting(req));
 
-  @Override
-  @Transactional
-  public void deleteSystemSetting(Integer id) {
+		systemSettingCategoryRepository.saveAll(categoryList
+			.stream()
+			.map(x -> new SystemSettingCategory(systemSetting.getId(), x.getId()))
+			.collect(Collectors.toList()));
 
-    systemSettingRepository.findById(id).orElseThrow(ManageSystemRequestException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
-    systemSettingRepository.deleteById(id);
+		req.setId(systemSetting.getId());
 
-  }
+		return new SystemSettingResponseDto(req);
+	}
 
-  @Override
-  public Page<SystemSetting> getAllSystemSetting(String key, Pageable paging) {
+	@Override
+	@Transactional
+	public void deleteSystemSetting(Integer id) {
 
-    Page<SystemSetting> systemSettingPage;
+		systemSettingRepository
+			.findById(id)
+			.orElseThrow(ManageSystemRequestException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
 
-    if (key == null) {
-      systemSettingPage = systemSettingRepository.findAll(paging);
-    } else {
-      systemSettingPage = systemSettingRepository.findByKeyContaining(key, paging);
-    }
+		systemSettingRepository.deleteById(id);
 
-    return systemSettingPage;
-  }
+	}
+
+	@Override
+	public Page<SystemSetting> getAllSystemSetting(String key, Pageable paging) {
+
+		Page<SystemSetting> systemSettingPage;
+
+		if(key == null) {
+			systemSettingPage = systemSettingRepository.findAll(paging);
+		} else {
+			systemSettingPage = systemSettingRepository.findByKeyContaining(key, paging);
+		}
+
+		return systemSettingPage;
+	}
 }

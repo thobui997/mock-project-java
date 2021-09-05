@@ -1,7 +1,10 @@
 package vn.manage.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,23 +16,23 @@ import java.util.List;
 @AllArgsConstructor
 public class SystemSettingRequestDto {
 
-  @JsonIgnore
-  private Integer id;
+	@JsonIgnore
+	private Integer id;
 
-  @Size(max = 1024)
-  @NotNull(message = "Key is required")
-  private String key;
+	@Size(max = 1024)
+	@NotNull(message = "Key is required")
+	private String key;
 
-  @NotNull(message = "Value is required")
-  private String value;
+	@NotNull(message = "Value is required")
+	private String value;
 
-  private String type;
+	private String type;
 
-  private boolean allowOverride;
+	private boolean allowOverride;
 
-  private List<String> allowValues;
+	private List<String> allowValues;
 
-  private String description;
+	private String description;
 
-  private List<String> categories;
+	private List<String> categories;
 }

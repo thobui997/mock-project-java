@@ -8,11 +8,11 @@ import org.springframework.beans.BeanUtils;
 @Setter
 public class CategoryResponseDto {
 
-  private Integer id;
-  private String name;
-  private String description;
+	private Integer id;
+	private String name;
+	private String description;
 
-  public CategoryResponseDto(CategoryRequestDto request) {
-    BeanUtils.copyProperties(request, this);
-  }
+	public CategoryResponseDto(CategoryRequestDto request) {
+		BeanUtils.copyProperties(request, this);
+	}
 }

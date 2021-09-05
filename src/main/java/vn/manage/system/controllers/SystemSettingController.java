@@ -14,41 +14,52 @@ import vn.manage.system.models.SystemSetting;
 import vn.manage.system.service.SystemSettingService;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/system-settings")
 public class SystemSettingController {
 
-  @Autowired
-  private SystemSettingService systemSettingService;
+	@Autowired
+	private SystemSettingService systemSettingService;
 
-  @PostMapping
-  public ResponseEntity<?> postSystemSettings(@Valid @RequestBody SystemSettingRequestDto req) {
+	@PostMapping
+	public ResponseEntity<?> postSystemSettings(@Valid @RequestBody SystemSettingRequestDto req) {
 
-    SystemSettingResponseDto systemSettingResponseDto = systemSettingService.createSystemSetting(req);
-    return ResponseHandler.generateResponse(HttpStatus.CREATED, systemSettingResponseDto);
-  }
+		SystemSettingResponseDto systemSettingResponseDto = systemSettingService.createSystemSetting(req);
+		return ResponseHandler.generateResponse(HttpStatus.CREATED, systemSettingResponseDto);
+	}
 
-  @PutMapping("/{id}")
-  public ResponseEntity<?> putSystemSettings(@PathVariable Integer id, @Valid @RequestBody SystemSettingRequestDto req) {
-    SystemSettingResponseDto systemSettingResponseDto = systemSettingService.updatedSystemSetting(id, req);
-    return ResponseHandler.generateResponse(HttpStatus.OK, systemSettingResponseDto);
-  }
+	@PutMapping("/{id}")
+	public ResponseEntity<?> putSystemSettings(@PathVariable Integer id,
+	                                           @Valid @RequestBody SystemSettingRequestDto req) {
+		SystemSettingResponseDto systemSettingResponseDto = systemSettingService.updatedSystemSetting(id, req);
+		return ResponseHandler.generateResponse(HttpStatus.OK, systemSettingResponseDto);
+	}
 
-  @GetMapping
-  public ResponseEntity<?> getSystemSettingById(@RequestParam(required = false) String key, @RequestParam(defaultValue = "0") Integer page,
-                                                @RequestParam(defaultValue = "3") Integer size) {
+	@GetMapping
+	public ResponseEntity<?> getSystemSettingById(@RequestParam(required = false) String key,
+	                                              @RequestParam(defaultValue = "0") Integer page,
+	                                              @RequestParam(defaultValue = "3") Integer size) {
 
-    Pageable paging = PageRequest.of(page, size);
+		Pageable paging = PageRequest.of(page, size);
 
-    Page<SystemSetting> systemSettingPage = systemSettingService.getAllSystemSetting(key, paging);
+		Page<SystemSetting> systemSettingPage = systemSettingService.getAllSystemSetting(key, paging);
 
-    return ResponseHandler.generateResponse(HttpStatus.OK, systemSettingPage.getContent(), systemSettingPage);
-  }
+		List<SystemSettingResponseDto> systemSettingResponseDtos = systemSettingPage
+			.getContent()
+			.stream()
+			.map(e -> new SystemSettingResponseDto(e.getId(), e.getKey(), e.getValue(), e.getDataType(), e.isAllowOverride(),
+				e.getAllowValues()))
+			.collect(Collectors.toList());
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<?> deleteSystemSettingById(@PathVariable Integer id) {
-    systemSettingService.deleteSystemSetting(id);
-    return ResponseHandler.generateResponse(HttpStatus.OK, true);
-  }
+		return ResponseHandler.generateResponse(HttpStatus.OK, systemSettingResponseDtos, systemSettingPage);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteSystemSettingById(@PathVariable Integer id) {
+		systemSettingService.deleteSystemSetting(id);
+		return ResponseHandler.generateResponse(HttpStatus.OK, true);
+	}
 }

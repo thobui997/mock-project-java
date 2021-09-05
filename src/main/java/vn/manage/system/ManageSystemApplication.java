@@ -12,8 +12,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaAuditing
 public class ManageSystemApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(ManageSystemApplication.class, args);
-  }
+	public static void main(String[] args) {
+		SpringApplication.run(ManageSystemApplication.class, args);
+	}
 
 }

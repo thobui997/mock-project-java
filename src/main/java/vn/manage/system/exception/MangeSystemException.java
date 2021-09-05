@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class MangeSystemException {
 
-  private final String message;
-  private final Integer status;
+	private final String message;
+	private final Integer status;
 }

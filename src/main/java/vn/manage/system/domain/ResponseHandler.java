@@ -11,36 +11,37 @@ import java.util.Map;
 
 public class ResponseHandler {
 
-  public static ResponseEntity<?> generateResponse(HttpStatus status, Object data) {
-    Map<String, Object> map = new HashMap<>();
+	public static ResponseEntity<?> generateResponse(HttpStatus status, Object data) {
+		Map<String, Object> map = new HashMap<>();
 
-    map.put("data", data);
+		map.put("data", data);
 
-    return new ResponseEntity<Object>(map, status);
-  }
+		return new ResponseEntity<Object>(map, status);
+	}
 
-  public static ResponseEntity<?> generateResponse(HttpStatus status, boolean success) {
-    Map<String, Object> map = new HashMap<>();
-    map.put("success", success);
+	public static ResponseEntity<?> generateResponse(HttpStatus status, boolean success) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("success", success);
 
-    return new ResponseEntity<>(map, status);
-  }
+		return new ResponseEntity<>(map, status);
+	}
 
-  public static ResponseEntity<?> generateResponse(HttpStatus status, Object data, Page<?> pages) {
-    Map<String, Object> map = new HashMap<>();
+	public static ResponseEntity<?> generateResponse(HttpStatus status, Object data, Page<?> pages) {
+		Map<String, Object> map = new HashMap<>();
 
-    map.put("totalCount", pages.getTotalElements());
-    map.put("data", data);
-    map.put("paging", new ResponseHandler.PagingAndFilteringResponse(pages.getSize(), pages.getNumber(), pages.getTotalPages()));
+		map.put("totalCount", pages.getTotalElements());
+		map.put("data", data);
+		map.put("paging",
+			new ResponseHandler.PagingAndFilteringResponse(pages.getSize(), pages.getNumber(), pages.getTotalPages()));
 
-    return new ResponseEntity<>(map, status);
-  }
+		return new ResponseEntity<>(map, status);
+	}
 
-  @Data
-  @AllArgsConstructor
-  private static class PagingAndFilteringResponse {
-    private Integer size;
-    private Integer currentPage;
-    private Integer totalPages;
-  }
+	@Data
+	@AllArgsConstructor
+	private static class PagingAndFilteringResponse {
+		private Integer size;
+		private Integer currentPage;
+		private Integer totalPages;
+	}
 }

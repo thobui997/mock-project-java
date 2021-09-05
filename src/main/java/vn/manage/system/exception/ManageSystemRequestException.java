@@ -6,24 +6,24 @@ import java.util.function.Supplier;
 
 public class ManageSystemRequestException extends RuntimeException {
 
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  public ManageSystemRequestException(String message) {
-    super(message);
-  }
+	public ManageSystemRequestException(String message) {
+		super(message);
+	}
 
-  public static Supplier<ManageSystemRequestException> exception(ErrorCodeEnum error) {
-    return () -> new ManageSystemRequestException(error.getMessage());
-  }
+	public static Supplier<ManageSystemRequestException> exception(ErrorCodeEnum error) {
+		return () -> new ManageSystemRequestException(error.getMessage());
+	}
 
-  public static void doThrow(ErrorCodeEnum errorCodeEnum) {
-    throw new ManageSystemRequestException(errorCodeEnum.getMessage());
-  }
+	public static void doThrow(ErrorCodeEnum errorCodeEnum) {
+		throw new ManageSystemRequestException(errorCodeEnum.getMessage());
+	}
 
-  public static void assertTrue(boolean logicExpression, ErrorCodeEnum error) {
-    if (!logicExpression) {
-      doThrow(error);
-    }
-  }
+	public static void assertTrue(boolean logicExpression, ErrorCodeEnum error) {
+		if(! logicExpression) {
+			doThrow(error);
+		}
+	}
 
 }

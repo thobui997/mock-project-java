@@ -10,23 +10,36 @@ import java.util.List;
 @Setter
 public class SystemSettingResponseDto {
 
-    private Integer id;
+	private Integer id;
 
-    private String key;
+	private String key;
 
-    private String value;
+	private String value;
 
-    private String type;
+	private String type;
 
-    private boolean allowOverride;
+	private boolean allowOverride;
 
-    private List<String> allowValues;
+	private List<String> allowValues;
 
-    private String description;
+	private String description;
 
-    private List<String> categories;
+	private List<String> categories;
 
-    public SystemSettingResponseDto(SystemSettingRequestDto request) {
-        BeanUtils.copyProperties(request, this);
-    }
+	public SystemSettingResponseDto(SystemSettingRequestDto request) {
+		BeanUtils.copyProperties(request, this);
+	}
+
+	public SystemSettingResponseDto(Integer id, String key, String value, String type, boolean allowOverride,
+	                                String allowValue) {
+		this.id = id;
+		this.key = key;
+		this.value = value;
+		this.type = type;
+		this.allowOverride = allowOverride;
+		this.allowValues = List.of(allowValue.split(","));
+		this.description = "default description";
+	}
+
+
 }

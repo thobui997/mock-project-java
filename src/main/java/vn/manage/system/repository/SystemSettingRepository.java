@@ -9,7 +9,7 @@ import vn.manage.system.models.SystemSetting;
 @Repository
 public interface SystemSettingRepository extends JpaRepository<SystemSetting, Integer> {
 
-  Page<SystemSetting> findByKeyContaining(String key, Pageable pageable);
+	Page<SystemSetting> findByKeyContaining(String key, Pageable pageable);
 
-  Page<SystemSetting> findByIdContaining(Integer id, Pageable pageable);
+	Page<SystemSetting> findByIdContaining(Integer id, Pageable pageable);
 }

@@ -17,18 +17,18 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Category extends BaseEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Integer id;
 
-  @Column(name = "name", unique = true)
-  private String name;
+	@Column(name = "name", unique = true)
+	private String name;
 
-  @Column(name = "description")
-  private String description;
+	@Column(name = "description")
+	private String description;
 
-  public Category(CategoryRequestDto request) {
-    BeanUtils.copyProperties(request, this);
-  }
+	public Category(CategoryRequestDto request) {
+		BeanUtils.copyProperties(request, this);
+	}
 }

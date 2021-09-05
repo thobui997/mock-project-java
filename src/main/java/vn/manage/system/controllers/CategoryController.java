@@ -15,18 +15,18 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/categories")
 public class CategoryController {
 
-  @Autowired
-  private CategoryService categoryService;
+	@Autowired
+	private CategoryService categoryService;
 
-  @PostMapping
-  public ResponseEntity<?> postCategory(@Valid @RequestBody CategoryRequestDto req) {
-    CategoryResponseDto categoryResponseDto = categoryService.createCategory(req);
-    return ResponseHandler.generateResponse(HttpStatus.CREATED, categoryResponseDto);
-  }
+	@PostMapping
+	public ResponseEntity<?> postCategory(@Valid @RequestBody CategoryRequestDto req) {
+		CategoryResponseDto categoryResponseDto = categoryService.createCategory(req);
+		return ResponseHandler.generateResponse(HttpStatus.CREATED, categoryResponseDto);
+	}
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<?> deleteCategoryById(@PathVariable Integer id) {
-    categoryService.deleteCategory(id);
-    return ResponseHandler.generateResponse(HttpStatus.OK, true);
-  }
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteCategoryById(@PathVariable Integer id) {
+		categoryService.deleteCategory(id);
+		return ResponseHandler.generateResponse(HttpStatus.OK, true);
+	}
 }

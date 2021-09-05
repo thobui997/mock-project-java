@@ -14,25 +14,25 @@ import vn.manage.system.service.CategoryService;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-  @Autowired
-  private CategoryRepository categoryRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 
-  @Override
-  @Transactional
-  public CategoryResponseDto createCategory(CategoryRequestDto request) {
+	@Override
+	@Transactional
+	public CategoryResponseDto createCategory(CategoryRequestDto request) {
 
-    Category category = categoryRepository.save(new Category(request));
-    request.setId(category.getId());
-    return new CategoryResponseDto(request);
-  }
+		Category category = categoryRepository.save(new Category(request));
+		request.setId(category.getId());
+		return new CategoryResponseDto(request);
+	}
 
-  @Override
-  @Transactional
-  public void deleteCategory(Integer id) {
+	@Override
+	@Transactional
+	public void deleteCategory(Integer id) {
 
-    categoryRepository.findById(id).orElseThrow(ManageSystemRequestException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
-    categoryRepository.deleteById(id);
+		categoryRepository.findById(id).orElseThrow(ManageSystemRequestException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
+		categoryRepository.deleteById(id);
 
-  }
+	}
 }

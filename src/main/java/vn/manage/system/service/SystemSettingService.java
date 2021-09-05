@@ -8,12 +8,12 @@ import vn.manage.system.models.SystemSetting;
 
 public interface SystemSettingService {
 
-    SystemSettingResponseDto createSystemSetting(SystemSettingRequestDto req);
+	SystemSettingResponseDto createSystemSetting(SystemSettingRequestDto req);
 
-    SystemSettingResponseDto updatedSystemSetting(Integer id, SystemSettingRequestDto req);
+	SystemSettingResponseDto updatedSystemSetting(Integer id, SystemSettingRequestDto req);
 
-    void deleteSystemSetting(Integer id);
+	void deleteSystemSetting(Integer id);
 
-    Page<SystemSetting> getAllSystemSetting(String key, Pageable paging);
+	Page<SystemSetting> getAllSystemSetting(String key, Pageable paging);
 
 }

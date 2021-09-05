@@ -15,24 +15,25 @@ import vn.manage.system.service.LoggingService;
 @ControllerAdvice
 public class CustomResponseBodyAdviceAdapter implements ResponseBodyAdvice<Object> {
 
-  @Autowired
-  LoggingService loggingService;
+	@Autowired
+	LoggingService loggingService;
 
-  @Override
-  public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
-    return true;
-  }
+	@Override
+	public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
+		return true;
+	}
 
-  @Override
-  public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass,
-                                ServerHttpRequest serverHttpRequest,
-                                ServerHttpResponse serverHttpResponse) {
+	@Override
+	public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType,
+	                              Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest,
+	                              ServerHttpResponse serverHttpResponse) {
 
-    if (serverHttpRequest instanceof ServletServerHttpRequest && serverHttpResponse instanceof ServletServerHttpResponse) {
-      loggingService.logResponse(((ServletServerHttpRequest) serverHttpRequest).getServletRequest(),
-        ((ServletServerHttpResponse) serverHttpResponse).getServletResponse(), o);
-    }
+		if(serverHttpRequest instanceof ServletServerHttpRequest &&
+			serverHttpResponse instanceof ServletServerHttpResponse) {
+			loggingService.logResponse(((ServletServerHttpRequest) serverHttpRequest).getServletRequest(),
+				((ServletServerHttpResponse) serverHttpResponse).getServletResponse(), o);
+		}
 
-    return o;
-  }
+		return o;
+	}
 }

@@ -5,7 +5,7 @@ import vn.manage.system.domain.CategoryResponseDto;
 
 public interface CategoryService {
 
-  CategoryResponseDto createCategory(CategoryRequestDto request);
+	CategoryResponseDto createCategory(CategoryRequestDto request);
 
-  void deleteCategory(Integer id);
+	void deleteCategory(Integer id);
 }

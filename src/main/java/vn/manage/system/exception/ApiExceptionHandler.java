@@ -14,46 +14,55 @@ import vn.manage.system.constants.ErrorCodeEnum;
 @ControllerAdvice
 public class ApiExceptionHandler {
 
-  private static final Logger logger = LoggerFactory.getLogger(ApiExceptionHandler.class);
+	private static final Logger logger = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
-  @ExceptionHandler(value = {ManageSystemRequestException.class})
-  public ResponseEntity<?> handleChoVuiException(ManageSystemRequestException ex) {
-    logger.error("Manage System Application error", ex);
+	@ExceptionHandler(value = {ManageSystemRequestException.class})
+	public ResponseEntity<?> handleChoVuiException(ManageSystemRequestException ex) {
+		logger.error("Manage System Application error", ex);
 
-    MangeSystemException mangeSystemException = new MangeSystemException(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+		MangeSystemException mangeSystemException =
+			new MangeSystemException(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
 
-    return new ResponseEntity<>(mangeSystemException, HttpStatus.BAD_REQUEST);
-  }
+		return new ResponseEntity<>(mangeSystemException, HttpStatus.BAD_REQUEST);
+	}
 
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<?> handle(MethodArgumentNotValidException e) {
-    logger.error("Error Occur! ", e);
-    MangeSystemException mangeSystemException = new MangeSystemException(e.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST.value());
-    return new ResponseEntity<>(mangeSystemException, HttpStatus.BAD_REQUEST);
-  }
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<?> handle(MethodArgumentNotValidException e) {
+		logger.error("Error Occur! ", e);
+		MangeSystemException mangeSystemException =
+			new MangeSystemException(e.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST.value());
 
-  @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-  public ResponseEntity<?> handle(HttpRequestMethodNotSupportedException e) {
-    logger.error("Error Occur! ", e);
+		return new ResponseEntity<>(mangeSystemException, HttpStatus.BAD_REQUEST);
+	}
 
-    MangeSystemException mangeSystemException = new MangeSystemException(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-    return new ResponseEntity<>(mangeSystemException, HttpStatus.BAD_REQUEST);
-  }
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	public ResponseEntity<?> handle(HttpRequestMethodNotSupportedException e) {
+		logger.error("Error Occur! ", e);
 
-  @ExceptionHandler(HttpMessageNotReadableException.class)
-  public ResponseEntity<?> handle(HttpMessageNotReadableException e) {
-    logger.error("Error Occur! ", e);
-    MangeSystemException mangeSystemException = new MangeSystemException(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-    return new ResponseEntity<>(mangeSystemException, HttpStatus.BAD_REQUEST);
-  }
+		MangeSystemException mangeSystemException =
+			new MangeSystemException(e.getMessage(), HttpStatus.BAD_REQUEST.value());
 
-  @ExceptionHandler(value = {Exception.class})
-  public ResponseEntity<?> handleException(Exception ex) {
-    logger.error("System Error", ex);
+		return new ResponseEntity<>(mangeSystemException, HttpStatus.BAD_REQUEST);
+	}
 
-    MangeSystemException mangeSystemException = new MangeSystemException(ErrorCodeEnum.SYSTEM_ERROR.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<?> handle(HttpMessageNotReadableException e) {
+		logger.error("Error Occur! ", e);
 
-    return new ResponseEntity<>(mangeSystemException, HttpStatus.INTERNAL_SERVER_ERROR);
-  }
+		MangeSystemException mangeSystemException =
+			new MangeSystemException(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+
+		return new ResponseEntity<>(mangeSystemException, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(value = {Exception.class})
+	public ResponseEntity<?> handleException(Exception ex) {
+		logger.error("System Error", ex);
+
+		MangeSystemException mangeSystemException =
+			new MangeSystemException(ErrorCodeEnum.SYSTEM_ERROR.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+		return new ResponseEntity<>(mangeSystemException, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 
 }

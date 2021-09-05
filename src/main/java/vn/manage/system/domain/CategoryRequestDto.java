@@ -1,10 +1,13 @@
 package vn.manage.system.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
 
 @Getter
 @Setter
@@ -12,13 +15,12 @@ import lombok.*;
 @AllArgsConstructor
 public class CategoryRequestDto {
 
-  @JsonIgnore
-  private Integer id;
+	@JsonIgnore
+	private Integer id;
 
-  @NotBlank(message = "Name is not empty")
-  @NotNull(message = "Name is required")
-  private String name;
+	@NotNull(message = "Name is required")
+	private String name;
 
-  private String description;
+	private String description;
 
 }
