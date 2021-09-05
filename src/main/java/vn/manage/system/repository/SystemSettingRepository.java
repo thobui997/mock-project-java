@@ -6,10 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import vn.manage.system.models.SystemSetting;
 
+import java.util.List;
+
 @Repository
 public interface SystemSettingRepository extends JpaRepository<SystemSetting, Integer> {
 
-	Page<SystemSetting> findByKeyContaining(String key, Pageable pageable);
+	Page<SystemSetting> findByKeyIn(List<String> keys, Pageable pageable);
 
-	Page<SystemSetting> findByIdContaining(Integer id, Pageable pageable);
 }

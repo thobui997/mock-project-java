@@ -90,14 +90,14 @@ public class SystemSettingServiceImpl implements SystemSettingService {
 	}
 
 	@Override
-	public Page<SystemSetting> getAllSystemSetting(String key, Pageable paging) {
+	public Page<SystemSetting> getAllSystemSetting(List<String> keys, Pageable paging) {
 
 		Page<SystemSetting> systemSettingPage;
 
-		if(key == null) {
+		if(keys == null) {
 			systemSettingPage = systemSettingRepository.findAll(paging);
 		} else {
-			systemSettingPage = systemSettingRepository.findByKeyContaining(key, paging);
+			systemSettingPage = systemSettingRepository.findByKeyIn(keys, paging);
 		}
 
 		return systemSettingPage;

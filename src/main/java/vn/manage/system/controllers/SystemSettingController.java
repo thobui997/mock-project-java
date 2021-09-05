@@ -39,13 +39,13 @@ public class SystemSettingController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> getSystemSettingById(@RequestParam(required = false) String key,
+	public ResponseEntity<?> getSystemSettingById(@RequestParam(required = false) List<String> keys,
 	                                              @RequestParam(defaultValue = "0") Integer page,
-	                                              @RequestParam(defaultValue = "3") Integer size) {
+	                                              @RequestParam(defaultValue = "10") Integer size) {
 
 		Pageable paging = PageRequest.of(page, size);
 
-		Page<SystemSetting> systemSettingPage = systemSettingService.getAllSystemSetting(key, paging);
+		Page<SystemSetting> systemSettingPage = systemSettingService.getAllSystemSetting(keys, paging);
 
 		List<SystemSettingResponseDto> systemSettingResponseDtos = systemSettingPage
 			.getContent()

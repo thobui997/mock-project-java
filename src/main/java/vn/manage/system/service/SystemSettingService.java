@@ -6,6 +6,8 @@ import vn.manage.system.domain.SystemSettingRequestDto;
 import vn.manage.system.domain.SystemSettingResponseDto;
 import vn.manage.system.models.SystemSetting;
 
+import java.util.List;
+
 public interface SystemSettingService {
 
 	SystemSettingResponseDto createSystemSetting(SystemSettingRequestDto req);
@@ -14,6 +16,6 @@ public interface SystemSettingService {
 
 	void deleteSystemSetting(Integer id);
 
-	Page<SystemSetting> getAllSystemSetting(String key, Pageable paging);
+	Page<SystemSetting> getAllSystemSetting(List<String> keys, Pageable paging);
 
 }
