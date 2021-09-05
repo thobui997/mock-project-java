@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -20,10 +21,10 @@ public class SystemSettingRequestDto {
 	private Integer id;
 
 	@Size(max = 1024)
-	@NotNull(message = "Key is required")
+	@NotBlank(message = "Key is required")
 	private String key;
 
-	@NotNull(message = "Value is required")
+	@NotBlank(message = "Value is required")
 	private String value;
 
 	private String type;

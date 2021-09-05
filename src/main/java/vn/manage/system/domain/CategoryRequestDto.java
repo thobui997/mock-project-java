@@ -18,7 +18,7 @@ public class CategoryRequestDto {
 	@JsonIgnore
 	private Integer id;
 
-	@NotNull(message = "Name is required")
+	@NotBlank(message = "Name is required")
 	private String name;
 
 	private String description;
