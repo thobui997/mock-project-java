@@ -1,4 +1,4 @@
-package vn.manage.system.controllers;
+package vn.manage.system.logging;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
