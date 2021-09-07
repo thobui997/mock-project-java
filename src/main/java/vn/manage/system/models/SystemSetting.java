@@ -36,6 +36,9 @@ public class SystemSetting extends BaseEntity {
 	@Column(name = "data_type")
 	private String dataType;
 
+	@Column(name = "description")
+	private String description;
+
 	@Column(name = "allow_override")
 	private boolean allowOverride;
 

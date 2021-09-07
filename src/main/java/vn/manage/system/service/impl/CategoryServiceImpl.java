@@ -21,7 +21,6 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	@Transactional
 	public CategoryResponseDto createCategory(CategoryRequestDto request) {
-
 		Category category = categoryRepository.save(new Category(request));
 		request.setId(category.getId());
 		return new CategoryResponseDto(request);
@@ -30,9 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	@Transactional
 	public void deleteCategory(Integer id) {
-
 		categoryRepository.findById(id).orElseThrow(ManageSystemRequestException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
 		categoryRepository.deleteById(id);
-
 	}
 }

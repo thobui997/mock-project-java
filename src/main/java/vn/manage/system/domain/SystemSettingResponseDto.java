@@ -34,7 +34,6 @@ public class SystemSettingResponseDto {
 	public SystemSettingResponseDto(SystemSetting systemSetting) {
 		BeanUtils.copyProperties(systemSetting, this);
 		this.allowValues = List.of(systemSetting.getAllowValues().split(","));
-		this.description = "default description";
 	}
 
 }
