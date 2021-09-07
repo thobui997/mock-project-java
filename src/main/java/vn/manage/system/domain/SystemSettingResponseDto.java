@@ -33,6 +33,7 @@ public class SystemSettingResponseDto {
 
 	public SystemSettingResponseDto(SystemSetting systemSetting) {
 		BeanUtils.copyProperties(systemSetting, this);
+		this.type = systemSetting.getDataType();
 		this.allowValues = List.of(systemSetting.getAllowValues().split(","));
 	}
 
