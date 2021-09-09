@@ -17,6 +17,7 @@ import vn.manage.system.repository.SystemSettingCategoryRepository;
 import vn.manage.system.repository.SystemSettingRepository;
 import vn.manage.system.service.SystemSettingService;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,23 +82,25 @@ public class SystemSettingServiceImpl implements SystemSettingService {
 	@Transactional
 	public void deleteSystemSetting(Integer id) {
 
-		systemSettingRepository
-			.findById(id)
-			.orElseThrow(ManageSystemRequestException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
+		if(! systemSettingRepository.existsById(id)) {
+			throw new ManageSystemRequestException(ErrorCodeEnum.DATA_NOT_FOUND.getMessage());
+		}
 
 		systemSettingRepository.deleteById(id);
 
 	}
 
 	@Override
-	public Page<SystemSetting> getAllSystemSetting(List<String> keys, Pageable paging) {
+	public Page<SystemSetting> getAllSystemSetting(List<String> keys, List<Integer> ids, Pageable paging) {
 
 		Page<SystemSetting> systemSettingPage;
 
-		if(keys == null) {
+		if(keys == null && ids == null) {
 			systemSettingPage = systemSettingRepository.findAll(paging);
 		} else {
-			systemSettingPage = systemSettingRepository.findByKeyIn(keys, paging);
+			keys = keys == null ? Collections.emptyList() : keys;
+			ids = ids == null ? Collections.emptyList() : ids;
+			systemSettingPage = systemSettingRepository.findByKeyInOrIdIn(keys, ids, paging);
 		}
 
 		return systemSettingPage;

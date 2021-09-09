@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface SystemSettingRepository extends JpaRepository<SystemSetting, Integer> {
 
-	Page<SystemSetting> findByKeyIn(List<String> keys, Pageable pageable);
+	Page<SystemSetting> findByKeyInOrIdIn(List<String> keys, List<Integer> ids, Pageable pageable);
 
 }

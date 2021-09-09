@@ -16,6 +16,6 @@ public interface SystemSettingService {
 
 	void deleteSystemSetting(Integer id);
 
-	Page<SystemSetting> getAllSystemSetting(List<String> keys, Pageable paging);
+	Page<SystemSetting> getAllSystemSetting(List<String> keys, List<Integer> ids, Pageable paging);
 
 }
