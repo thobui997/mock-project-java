@@ -32,7 +32,7 @@ class CategoryControllerTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	String url = "/api/v1/categories";
+	private final String URL = "/api/v1/categories";
 
 	@Test
 	void testPostCategorySuccess() throws Exception {
@@ -46,7 +46,7 @@ class CategoryControllerTest {
 		when(categoryService.createCategory(any())).thenReturn(responseDto);
 
 		mockMvc
-			.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(requestDto)))
+			.perform(post(URL).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(requestDto)))
 			.andExpect(status().isCreated())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 			.andExpect(jsonPath("$.data.id", is(1)))
@@ -67,7 +67,7 @@ class CategoryControllerTest {
 		when(categoryService.createCategory(any())).thenReturn(responseDto);
 
 		mockMvc
-			.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(requestDto)))
+			.perform(post(URL).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(requestDto)))
 			.andExpect(status().isBadRequest())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 			.andExpect(jsonPath("$.message", is("Name is required")));
@@ -80,7 +80,7 @@ class CategoryControllerTest {
 	void testDeleteCategoryByIdSuccess() throws Exception {
 
 		mockMvc
-			.perform(delete(url + "/{id}", "1").contentType(MediaType.APPLICATION_JSON))
+			.perform(delete(URL + "/{id}", "1").contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.success", is(true)));
 
