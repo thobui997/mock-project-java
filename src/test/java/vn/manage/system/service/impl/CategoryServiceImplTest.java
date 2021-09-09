@@ -11,12 +11,12 @@ import vn.manage.system.exception.ManageSystemRequestException;
 import vn.manage.system.models.Category;
 import vn.manage.system.repository.CategoryRepository;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceImplTest {
@@ -40,7 +40,7 @@ class CategoryServiceImplTest {
 		Category category = new Category();
 		category.setId(1);
 
-		when(categoryRepository.save(any(Category.class))).thenReturn(category);
+		given(categoryRepository.save(any(Category.class))).willReturn(category);
 
 		CategoryResponseDto result = categoryService.createCategory(mockRequest);
 
@@ -57,7 +57,7 @@ class CategoryServiceImplTest {
 		Category categoryMock = new Category();
 		categoryMock.setId(1);
 
-		when(categoryRepository.findById(mockId)).thenReturn(Optional.of(categoryMock));
+		given(categoryRepository.existsById(mockId)).willReturn(true);
 
 		categoryService.deleteCategory(mockId);
 
@@ -70,7 +70,7 @@ class CategoryServiceImplTest {
 
 		Integer mockId = 1;
 
-		when(categoryRepository.findById(mockId)).thenReturn(Optional.empty());
+		given(categoryRepository.existsById(mockId)).willReturn(false);
 
 		assertThatThrownBy(() -> categoryService.deleteCategory(mockId)).isInstanceOf(ManageSystemRequestException.class);
 

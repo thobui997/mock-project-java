@@ -29,7 +29,9 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	@Transactional
 	public void deleteCategory(Integer id) {
-		categoryRepository.findById(id).orElseThrow(ManageSystemRequestException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
+		if(!categoryRepository.existsById(id)) {
+			throw new ManageSystemRequestException(ErrorCodeEnum.DATA_NOT_FOUND.getMessage());
+		}
 		categoryRepository.deleteById(id);
 	}
 }
