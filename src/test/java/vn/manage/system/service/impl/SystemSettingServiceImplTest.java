@@ -97,6 +97,30 @@ class SystemSettingServiceImplTest {
 	}
 
 	@Test
+	void canNotCreateSystemSettingWhenRequestBodyInvalid() {
+		Category category = new Category();
+		category.setName("tho");
+		category.setDescription("test description");
+
+		SystemSettingRequestDto requestDto = new SystemSettingRequestDto();
+		requestDto.setKey("key 1");
+		requestDto.setValue("value 1");
+		requestDto.setType("wrong_data_type");
+		requestDto.setAllowValues(List.of("value 1", "value 2"));
+		requestDto.setCategories(List.of("category 1"));
+
+		given(categoryRepository.findByNameIn(any())).willReturn(List.of(category));
+
+		assertThatThrownBy(() -> systemSettingService.createSystemSetting(requestDto)).isInstanceOf(
+			ManageSystemRequestException.class);
+
+		// verify
+		verify(categoryRepository).findByNameIn(any());
+		verify(systemSettingRepository, never()).save(any());
+		verify(systemSettingCategoryRepository, never()).saveAll(any());
+	}
+
+	@Test
 	void canUpdatedSystemSetting() {
 		Integer mockId = 1;
 
@@ -157,6 +181,31 @@ class SystemSettingServiceImplTest {
 		requestDto.setType("string");
 		requestDto.setAllowValues(List.of("value 1", "value 2"));
 		requestDto.setCategories(List.of("category 1", "category 2"));
+
+		given(systemSettingRepository.existsById(1)).willReturn(true);
+		given(categoryRepository.findByNameIn(any())).willReturn(List.of(category));
+
+		assertThatThrownBy(() -> systemSettingService.updatedSystemSetting(1, requestDto)).isInstanceOf(
+			ManageSystemRequestException.class);
+
+		// verify
+		verify(categoryRepository).findByNameIn(any());
+		verify(systemSettingRepository, never()).save(any());
+		verify(systemSettingCategoryRepository, never()).saveAll(any());
+	}
+
+	@Test
+	void canNotUpdateSystemSettingWhenRequestBodyInvalid() {
+		Category category = new Category();
+		category.setName("tho");
+		category.setDescription("test description");
+
+		SystemSettingRequestDto requestDto = new SystemSettingRequestDto();
+		requestDto.setKey("key 1");
+		requestDto.setValue("value 1");
+		requestDto.setType("wrong_data_type");
+		requestDto.setAllowValues(List.of("value 1", "value 2"));
+		requestDto.setCategories(List.of("category 1"));
 
 		given(systemSettingRepository.existsById(1)).willReturn(true);
 		given(categoryRepository.findByNameIn(any())).willReturn(List.of(category));
