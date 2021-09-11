@@ -55,9 +55,9 @@ public class SystemSettingServiceImpl implements SystemSettingService {
 	@Override
 	@Transactional
 	public SystemSettingResponseDto updatedSystemSetting(Integer id, SystemSettingRequestDto req) {
-		systemSettingRepository
-			.findById(id)
-			.orElseThrow(ManageSystemRequestException.exception(ErrorCodeEnum.DATA_NOT_FOUND));
+		if(!systemSettingRepository.existsById(id)) {
+			throw new ManageSystemRequestException(ErrorCodeEnum.DATA_NOT_FOUND.getMessage());
+		}
 
 		List<Category> categoryList = categoryRepository.findByNameIn(req.getCategories());
 
