@@ -320,7 +320,7 @@ class SystemSettingServiceImplTest {
 		systemSettingService.getAllSystemSetting(mockKeys, mockIds, mockPaging);
 
 		// verify
-		verify(systemSettingRepository).findByKeyInAndIdIn(Collections.emptyList(), mockIds, mockPaging);
+		verify(systemSettingRepository).findByIdIn(mockIds, mockPaging);
 	}
 
 	@Test
@@ -332,7 +332,7 @@ class SystemSettingServiceImplTest {
 		systemSettingService.getAllSystemSetting(mockKeys, mockIds, mockPaging);
 
 		// verify
-		verify(systemSettingRepository).findByKeyInAndIdIn(mockKeys, Collections.emptyList(), mockPaging);
+		verify(systemSettingRepository).findByKeyIn(mockKeys, mockPaging);
 	}
 
 	@Test
