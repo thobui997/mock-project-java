@@ -14,6 +14,7 @@ import vn.manage.system.repository.CategoryRepository;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -40,6 +41,7 @@ class CategoryServiceImplTest {
 		Category category = new Category();
 		category.setId(1);
 
+		given(categoryRepository.existsByName(anyString())).willReturn(false);
 		given(categoryRepository.save(any(Category.class))).willReturn(category);
 
 		CategoryResponseDto result = categoryService.createCategory(mockRequest);
@@ -47,6 +49,24 @@ class CategoryServiceImplTest {
 		// verify
 		assertThat(result).usingRecursiveComparison().isEqualTo(mockResponse);
 		verify(categoryRepository).save(any());
+	}
+
+	@Test
+	void canNotCreateCategory() {
+
+		CategoryRequestDto mockRequest = new CategoryRequestDto();
+		mockRequest.setId(1);
+		mockRequest.setName("name");
+		mockRequest.setDescription("test description");
+
+		given(categoryRepository.existsByName(anyString())).willReturn(true);
+
+		assertThatThrownBy(() -> categoryService.createCategory(mockRequest)).isInstanceOf(
+			ManageSystemRequestException.class);
+
+		// verify
+		verify(categoryRepository, never()).save(any());
+		verify(categoryRepository).existsByName(anyString());
 	}
 
 	@Test

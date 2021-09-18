@@ -22,6 +22,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -61,6 +62,7 @@ class SystemSettingServiceImplTest {
 		mockResponse.setId(1);
 
 		given(categoryRepository.findByNameIn(any())).willReturn(List.of(category));
+		given(systemSettingRepository.existsByKey(anyString())).willReturn(false);
 		given(systemSettingRepository.save(any())).willReturn(systemSetting);
 
 		SystemSettingResponseDto result = systemSettingService.createSystemSetting(requestDto);
@@ -70,6 +72,7 @@ class SystemSettingServiceImplTest {
 		verify(categoryRepository).findByNameIn(any());
 		verify(systemSettingRepository).save(any());
 		verify(systemSettingCategoryRepository).saveAll(any());
+		verify(systemSettingRepository).existsByKey(anyString());
 	}
 
 	@Test
@@ -94,6 +97,7 @@ class SystemSettingServiceImplTest {
 		verify(categoryRepository).findByNameIn(any());
 		verify(systemSettingRepository, never()).save(any());
 		verify(systemSettingCategoryRepository, never()).saveAll(any());
+		verify(systemSettingRepository, never()).existsByKey("test");
 	}
 
 	@Test
@@ -118,6 +122,33 @@ class SystemSettingServiceImplTest {
 		verify(categoryRepository).findByNameIn(any());
 		verify(systemSettingRepository, never()).save(any());
 		verify(systemSettingCategoryRepository, never()).saveAll(any());
+		verify(systemSettingRepository, never()).existsByKey("test");
+	}
+
+	@Test
+	void canNotCreateSystemSettingWhenKeyExisted() {
+		Category category = new Category();
+		category.setName("category");
+		category.setDescription("test description");
+
+		SystemSettingRequestDto requestDto = new SystemSettingRequestDto();
+		requestDto.setKey("key 1");
+		requestDto.setValue("value 1");
+		requestDto.setType("wrong_data_type");
+		requestDto.setAllowValues(List.of("value 1", "value 2"));
+		requestDto.setCategories(List.of("category 1"));
+
+		given(categoryRepository.findByNameIn(any())).willReturn(List.of(category));
+		given(systemSettingRepository.existsByKey(requestDto.getKey())).willReturn(true);
+
+		assertThatThrownBy(() -> systemSettingService.createSystemSetting(requestDto)).isInstanceOf(
+			ManageSystemRequestException.class);
+
+		// verify
+		verify(categoryRepository).findByNameIn(any());
+		verify(systemSettingRepository, never()).save(any());
+		verify(systemSettingCategoryRepository, never()).saveAll(any());
+		verify(systemSettingRepository).existsByKey(requestDto.getKey());
 	}
 
 	@Test
@@ -220,6 +251,34 @@ class SystemSettingServiceImplTest {
 	}
 
 	@Test
+	void canNotUpdateSystemSettingWhenKeyExisted() {
+		Category category = new Category();
+		category.setName("category");
+		category.setDescription("test description");
+
+		SystemSettingRequestDto requestDto = new SystemSettingRequestDto();
+		requestDto.setKey("key 1");
+		requestDto.setValue("value 1");
+		requestDto.setType("wrong_data_type");
+		requestDto.setAllowValues(List.of("value 1", "value 2"));
+		requestDto.setCategories(List.of("category 1"));
+
+		given(systemSettingRepository.existsById(1)).willReturn(true);
+		given(categoryRepository.findByNameIn(any())).willReturn(List.of(category));
+		given(systemSettingRepository.existsByKey(requestDto.getKey())).willReturn(true);
+
+		assertThatThrownBy(() -> systemSettingService.updatedSystemSetting(1, requestDto)).isInstanceOf(
+			ManageSystemRequestException.class);
+
+		// verify
+		verify(categoryRepository).findByNameIn(any());
+		verify(systemSettingRepository, never()).save(any());
+		verify(systemSettingCategoryRepository, never()).saveAll(any());
+		verify(systemSettingRepository).existsByKey(requestDto.getKey());
+		verify(systemSettingRepository).existsById(1);
+	}
+
+	@Test
 	void canDeleteSystemSetting() {
 		given(systemSettingRepository.existsById(1)).willReturn(true);
 
@@ -261,7 +320,7 @@ class SystemSettingServiceImplTest {
 		systemSettingService.getAllSystemSetting(mockKeys, mockIds, mockPaging);
 
 		// verify
-		verify(systemSettingRepository).findByKeyInOrIdIn(Collections.emptyList(), mockIds, mockPaging);
+		verify(systemSettingRepository).findByKeyInAndIdIn(Collections.emptyList(), mockIds, mockPaging);
 	}
 
 	@Test
@@ -273,7 +332,7 @@ class SystemSettingServiceImplTest {
 		systemSettingService.getAllSystemSetting(mockKeys, mockIds, mockPaging);
 
 		// verify
-		verify(systemSettingRepository).findByKeyInOrIdIn(mockKeys, Collections.emptyList(), mockPaging);
+		verify(systemSettingRepository).findByKeyInAndIdIn(mockKeys, Collections.emptyList(), mockPaging);
 	}
 
 	@Test
@@ -285,6 +344,6 @@ class SystemSettingServiceImplTest {
 		systemSettingService.getAllSystemSetting(mockKeys, mockIds, mockPaging);
 
 		// verify
-		verify(systemSettingRepository).findByKeyInOrIdIn(mockKeys, mockIds, mockPaging);
+		verify(systemSettingRepository).findByKeyInAndIdIn(mockKeys, mockIds, mockPaging);
 	}
 }

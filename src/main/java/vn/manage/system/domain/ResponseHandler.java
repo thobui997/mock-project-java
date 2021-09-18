@@ -32,7 +32,7 @@ public class ResponseHandler {
 		map.put("totalCount", pages.getTotalElements());
 		map.put("data", data);
 		map.put("paging",
-			new ResponseHandler.PagingAndFilteringResponse(pages.getSize(), pages.getNumber(), pages.getTotalPages()));
+			new ResponseHandler.PagingAndFilteringResponse(pages.getSize(), pages.getNumber() + 1, pages.getTotalPages()));
 
 		return new ResponseEntity<>(map, status);
 	}

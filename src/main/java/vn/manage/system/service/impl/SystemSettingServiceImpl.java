@@ -39,7 +39,11 @@ public class SystemSettingServiceImpl implements SystemSettingService {
 
 		List<Category> categoryList = categoryRepository.findByNameIn(req.getCategories());
 		ManageSystemRequestException.assertTrue(categoryList.size() == req.getCategories().size(),
-			ErrorCodeEnum.DATA_NOT_FOUND);
+			ErrorCodeEnum.CATEGORY_NOT_EXISTED);
+
+		if(systemSettingRepository.existsByKey(req.getKey())) {
+			throw new ManageSystemRequestException(ErrorCodeEnum.KEY_EXISTED.getMessage());
+		}
 
 		SystemSetting systemSetting = systemSettingRepository.save(new SystemSetting(req));
 
@@ -62,9 +66,13 @@ public class SystemSettingServiceImpl implements SystemSettingService {
 		List<Category> categoryList = categoryRepository.findByNameIn(req.getCategories());
 
 		ManageSystemRequestException.assertTrue(categoryList.size() == req.getCategories().size(),
-			ErrorCodeEnum.DATA_NOT_FOUND);
+			ErrorCodeEnum.CATEGORY_NOT_EXISTED);
 
 		req.setId(id);
+
+		if(systemSettingRepository.existsByKey(req.getKey())) {
+			throw new ManageSystemRequestException(ErrorCodeEnum.KEY_EXISTED.getMessage());
+		}
 
 		SystemSetting systemSetting = systemSettingRepository.save(new SystemSetting(req));
 
@@ -82,7 +90,7 @@ public class SystemSettingServiceImpl implements SystemSettingService {
 	@Transactional
 	public void deleteSystemSetting(Integer id) {
 
-		if(! systemSettingRepository.existsById(id)) {
+		if(!systemSettingRepository.existsById(id)) {
 			throw new ManageSystemRequestException(ErrorCodeEnum.DATA_NOT_FOUND.getMessage());
 		}
 
@@ -100,7 +108,7 @@ public class SystemSettingServiceImpl implements SystemSettingService {
 		} else {
 			keys = keys == null ? Collections.emptyList() : keys;
 			ids = ids == null ? Collections.emptyList() : ids;
-			systemSettingPage = systemSettingRepository.findByKeyInOrIdIn(keys, ids, paging);
+			systemSettingPage = systemSettingRepository.findByKeyInAndIdIn(keys, ids, paging);
 		}
 
 		return systemSettingPage;

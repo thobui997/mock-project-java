@@ -21,6 +21,9 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	@Transactional
 	public CategoryResponseDto createCategory(CategoryRequestDto request) {
+		if(categoryRepository.existsByName(request.getName())) {
+			throw new ManageSystemRequestException(ErrorCodeEnum.NAME_EXISTED.getMessage());
+		}
 		Category category = categoryRepository.save(new Category(request));
 		request.setId(category.getId());
 		return new CategoryResponseDto(request);
