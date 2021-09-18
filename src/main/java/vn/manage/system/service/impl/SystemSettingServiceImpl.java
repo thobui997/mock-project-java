@@ -105,9 +105,11 @@ public class SystemSettingServiceImpl implements SystemSettingService {
 
 		if(keys == null && ids == null) {
 			systemSettingPage = systemSettingRepository.findAll(paging);
+		} else if(ids != null) {
+			systemSettingPage = systemSettingRepository.findByIdIn(ids, paging);
+		} else if(keys != null) {
+			systemSettingPage = systemSettingRepository.findByKeyIn(keys, paging);
 		} else {
-			keys = keys == null ? Collections.emptyList() : keys;
-			ids = ids == null ? Collections.emptyList() : ids;
 			systemSettingPage = systemSettingRepository.findByKeyInAndIdIn(keys, ids, paging);
 		}
 

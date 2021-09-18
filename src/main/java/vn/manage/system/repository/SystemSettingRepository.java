@@ -13,6 +13,10 @@ public interface SystemSettingRepository extends JpaRepository<SystemSetting, In
 
 	Page<SystemSetting> findByKeyInAndIdIn(List<String> keys, List<Integer> ids, Pageable pageable);
 
+	Page<SystemSetting> findByKeyIn(List<String> keys, Pageable pageable);
+
+	Page<SystemSetting> findByIdIn(List<Integer> ids, Pageable pageable);
+
 	boolean existsByKey(String key);
 
 }
